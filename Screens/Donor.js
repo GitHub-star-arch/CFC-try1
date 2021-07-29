@@ -1,6 +1,8 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import MyHeader from '../Components/MyHeader';
+import { ListItem } from 'react-native-elements';
 import db from '../config'
 
 export default class DonorScreen extends React.Component {
@@ -27,19 +29,33 @@ export default class DonorScreen extends React.Component {
 
     render() {
         return (
-            <View style={{backgroundColor:'black'}}>
-                <Text style={{color:'white'}} >
-                    Donors
-                </Text>
-                <FlatList 
-                keyExtractor={(item,index)=>{index.toString()}} 
-                data={this.state.donors} 
-                renderItem={({item})=>(<View><Text>{item.Email}:{item.Note}</Text></View>)}
-                style={{borderWidth:2, borderColor:'red', backgroundColor:'#74d6d3',}} 
-                />
-                <Text style={{color:'white'}} >Joey</Text>
-                <Text style={{color:'white'}} >MAch</Text>
-                <Text style={{color:'white'}} >Bobby</Text>
+            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, }} >
+                <ImageBackground 
+                    source={require('../assets/donor-background.png')} 
+                    style={{ 
+                        width: '100%', 
+                        height: '100%' 
+                    }} 
+                >
+                    <MyHeader title='Donors' navigation={this.props.navigation} />
+                    <FlatList
+                        keyExtractor={(item, index) => { index.toString() }}
+                        data={this.state.donors}
+                        renderItem={({ item, i }) => (
+                            <ListItem
+                                key={i}
+                                title={item.Email}
+                                subtitle={item.Note}
+                                bottomDivider
+                                rightElement={<Text style={{fontWeight: 'bold', fontSize: 25 }} >Amount: ${item.Amount}</Text>}
+                                containerStyle={{backgroundColor: 'transparent', }}
+                                titleStyle={{fontWeight: 'bold', fontSize: 25 }}
+                                subtitleStyle={{fontWeight: 'bold', fontSize: 15 }}
+                                >
+                            </ListItem>
+                        )}
+                    />
+                </ImageBackground>
             </View>
         );
     }
